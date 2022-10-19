@@ -1,0 +1,219 @@
+_schema-version: "3.1"
+ID: capbigbagstock
+description: A simple CAP project.
+version: 1.0.0
+modules:
+- name: capbigbagstock-srv
+  type: nodejs
+  path: gen/srv
+  requires:
+  - name: capbigbagstock-db
+  - name: uaa_capbigbagstock
+  provides:
+  - name: srv-api
+    properties:
+      srv-url: ${default-url}
+  parameters:
+    buildpack: nodejs_buildpack
+  build-parameters:
+    builder: npm-ci
+- name: capbigbagstock-db-deployer
+  type: hdb
+  path: db
+  requires:
+  - name: uaa_capbigbagstock
+  - name: capbigbagstock-db
+    properties:
+      TARGET_CONTAINER: capbigbagstock-db
+  parameters:
+    build-parameters:
+      ignore:
+      - default-env.json
+      - .env
+    buildpack: nodejs_buildpack
+- name: capbigbagstock-destination-content
+  type: com.sap.application.content
+  requires:
+  - name: capbigbagstock-destination-service
+    parameters:
+      content-target: true
+  - name: capbigbagstock_html_repo_host
+    parameters:
+      service-key:
+        name: capbigbagstock_html_repo_host-key
+  - name: uaa_capbigbagstock
+    parameters:
+      service-key:
+        name: uaa_capbigbagstock-key
+  parameters:
+    content:
+      instance:
+        destinations:
+        - Name: bigbagstock_capbigbagstock_html_repo_host
+          ServiceInstanceName: capbigbagstock-html5-app-host-service
+          ServiceKeyName: capbigbagstock_html_repo_host-key
+          sap.cloud.service: bigbagstock
+        - Authentication: OAuth2UserTokenExchange
+          Name: bigbagstock_uaa_capbigbagstock
+          ServiceInstanceName: capbigbagstock-xsuaa-service
+          ServiceKeyName: uaa_capbigbagstock-key
+          sap.cloud.service: bigbagstock
+        existing_destinations_policy: ignore
+  build-parameters:
+    no-source: true
+- name: capbigbagstock-app-content
+  type: com.sap.application.content
+  path: .
+  requires:
+  - name: capbigbagstock_html_repo_host
+    parameters:
+      content-target: true
+  build-parameters:
+    build-result: resources
+    requires:
+    - artifacts:
+      - combigbagtypesksearchhelpbigbagtypesksearchhelp.zip
+      name: combigbagtypesksearchhelpbigbagtypesksearchhelp
+      target-path: resources/
+    - artifacts:
+      - comobservationsksearchhelpobservationsksearchhelp.zip
+      name: comobservationsksearchhelpobservationsksearchhelp
+      target-path: resources/
+    - artifacts:
+      - comreferencesksearchhelpreferencesksearchhelp.zip
+      name: comreferencesksearchhelpreferencesksearchhelp
+      target-path: resources/
+    - artifacts:
+      - comshiftsksearchhelpshiftsksearchhelp.zip
+      name: comshiftsksearchhelpshiftsksearchhelp
+      target-path: resources/
+    - artifacts:
+      - comuibigbagstockuibigbagstock.zip
+      name: comuibigbagstockuibigbagstock
+      target-path: resources/
+- name: combigbagtypesksearchhelpbigbagtypesksearchhelp
+  type: html5
+  path: app/bigbagtype_sk_search_help
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comobservationsksearchhelpobservationsksearchhelp
+  type: html5
+  path: app/observation_sk_search_help
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comreferencesksearchhelpreferencesksearchhelp
+  type: html5
+  path: app/reference_sk_search_help
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comshiftsksearchhelpshiftsksearchhelp
+  type: html5
+  path: app/shift_sk_search_help
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+- name: comuibigbagstockuibigbagstock
+  type: html5
+  path: app/uibigbagstock
+  build-parameters:
+    build-result: dist
+    builder: custom
+    commands:
+    - npm install
+    - npm run build:cf
+    supported-platforms: []
+resources:
+- name: capbigbagstock-db
+  type: com.sap.xs.hdi-container
+  parameters:
+    service: hana
+    service-plan: hdi-shared
+    services: hana
+  properties:
+    hdi-service-name: ${service-name}
+- name: uaa_capbigbagstock
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      role-collections:
+      - description: Manager Bigbag Stock
+        name: BigbagStockManager-${space}
+        role-template-references:
+        - $XSAPPNAME.BigbagStockManager
+      - description: Operator Bigbag Stock
+        name: BigbagStockOperator-${space}
+        role-template-references:
+        - $XSAPPNAME.BigbagStockOperator
+      - description: View Bigbag Stock
+        name: BigbagStockViewer-${space}
+        role-template-references:
+        - $XSAPPNAME.BigbagStockViewer
+      tenant-mode: dedicated
+      xsappname: capbigbagstock-${space}
+    path: ./xs-security.json
+    service: xsuaa
+    service-name: capbigbagstock-xsuaa-service
+    service-plan: application
+- name: capbigbagstock-destination-service
+  type: org.cloudfoundry.managed-service
+  parameters:
+    config:
+      HTML5Runtime_enabled: true
+      init_data:
+        instance:
+          destinations:
+          - Authentication: NoAuthentication
+            Name: ui5
+            ProxyType: Internet
+            Type: HTTP
+            URL: https://ui5.sap.com
+          - Authentication: NoAuthentication
+            HTML5.DynamicDestination: true
+            HTML5.ForwardAuthToken: true
+            Name: capbigbagstock-srv-api
+            ProxyType: Internet
+            Type: HTTP
+            URL: ~{srv-api/srv-url}
+          existing_destinations_policy: update
+      version: 1.0.0
+    service: destination
+    service-name: capbigbagstock-destination-service
+    service-plan: lite
+  requires:
+  - name: srv-api
+- name: capbigbagstock_html_repo_host
+  type: org.cloudfoundry.managed-service
+  parameters:
+    service: html5-apps-repo
+    service-name: capbigbagstock-html5-app-host-service
+    service-plan: app-host
+parameters:
+  deploy_mode: html5-repo
+  enable-parallel-deployments: true
+build-parameters:
+  before-all:
+  - builder: custom
+    commands:
+    - npm install --production
+    - npx -p @sap/cds-dk cds build --production
+    - npx rimraf gen/db/src/gen/data
+    - npx rimraf gen/db/src/gen/csv

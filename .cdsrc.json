@@ -1,0 +1,32 @@
+{
+    "[development]": {
+        "auth": {
+            "passport": {
+                "strategy": "mock",
+                "users": {
+                    "manager@tester.com": {
+                        "password": "initial",
+                        "ID": "manager@tester.com",
+                        "roles": [
+                            "BigbagStockManager"
+                        ]
+                    },
+                    "viewer@tester.com": {
+                        "password": "initial",
+                        "ID": "viewer@tester.com",
+                        "roles": [
+                            "BigbagStockViewer"
+                        ]
+                    },
+                    "operator@tester.com": {
+                        "password": "initial",
+                        "ID": "operator@tester.com",
+                        "roles": [
+                            "BigbagStockOperator"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}

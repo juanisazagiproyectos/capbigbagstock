@@ -1,0 +1,55 @@
+{
+    "scopes": [
+        {
+            "name": "$XSAPPNAME.BigbagStockViewer",
+            "description": "BigbagStockViewer"
+        },
+        {
+            "name": "$XSAPPNAME.BigbagStockOperator",
+            "description": "BigbagStockOperator"
+        },
+        {
+            "name": "$XSAPPNAME.BigbagStockDelete",
+            "description": "BigbagStockDelete"
+        },
+        {
+            "name": "$XSAPPNAME.BigbagStockManager",
+            "description": "BigbagStockManager"
+        }
+    ],
+    "attributes": [],
+    "role-templates": [
+        {
+            "name": "BigbagStockViewer",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.BigbagStockViewer"
+            ],
+            "attribute-references": []
+        },
+        {
+            "name": "BigbagStockOperator",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.BigbagStockOperator"
+            ],
+            "attribute-references": []
+        },
+        {
+            "name": "BigbagStockDelete",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.BigbagStockDelete"
+            ],
+            "attribute-references": []
+        },
+        {
+            "name": "BigbagStockManager",
+            "description": "generated",
+            "scope-references": [
+                "$XSAPPNAME.BigbagStockManager"
+            ],
+            "attribute-references": []
+        }
+    ]
+}
