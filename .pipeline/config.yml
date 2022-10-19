@@ -1,44 +1,44 @@
 
-# general:
-#   buildTool: "mta"
+general:
+  buildTool: "mta"
 
-# stages:
-#   Build:
-#     mavenExecuteStaticCodeChecks: false
-#     npmExecuteLint: true
+stages:
+  Build:
+    mavenExecuteStaticCodeChecks: false
+    npmExecuteLint: true
 
-#   Additional Unit Tests:
-#     npmExecuteScripts: false
-#     karmaExecuteTests: false
+  Additional Unit Tests:
+    npmExecuteScripts: false
+    karmaExecuteTests: false
 
-#   Acceptance:
-#     cloudFoundryDeploy: false
-#     cfApiEndpoint: "https://api.cf.us10.hana.ondemand.com"
-#     cfOrg: "dev-paperless"
-#     cfSpace: "dev"
-#     cfAppName: "capbigbagstock"
-#     cfCredentialsId: "deploy-to-cf"
-#     uiVeri5ExecuteTests: false
+  Acceptance:
+    cloudFoundryDeploy: false
+    cfApiEndpoint: "https://api.cf.us10.hana.ondemand.com"
+    cfOrg: "dev-paperless"
+    cfSpace: "dev"
+    cfAppName: "capbigbagstock"
+    cfCredentialsId: "deploy-to-cf"
+    uiVeri5ExecuteTests: false
 
-#   Release:
-#     cloudFoundryDeploy: true
-#     cfApiEndpoint: "https://api.cf.us10.hana.ondemand.com"
-#     cfOrg: "dev-paperless"
-#     cfSpace: "dev"
-#     cfAppName: "capbigbagstock"
-#     cfCredentialsId: "deploy-to-cf"
-#     tmsUpload: false
+  Release:
+    cloudFoundryDeploy: true
+    cfApiEndpoint: "https://api.cf.us10.hana.ondemand.com"
+    cfOrg: "dev-paperless"
+    cfSpace: "dev"
+    cfAppName: "capbigbagstock"
+    cfCredentialsId: "deploy-to-cf"
+    tmsUpload: false
 
-# steps:
-#   artifactPrepareVersion:
-#     versioningType: "cloud_noTag"
+steps:
+  artifactPrepareVersion:
+    versioningType: "cloud_noTag"
 
-#   npmExecuteLint:
-#     failOnError: true
+  npmExecuteLint:
+    failOnError: true
 
-#   cloudFoundryDeploy:
-#     mtaDeployParameters: "-f --version-rule ALL"
+  cloudFoundryDeploy:
+    mtaDeployParameters: "-f --version-rule ALL"
 
-#   tmsUpload:
-#     nodeName: "qas"
-#     credentialsId: "tms-sk"
+  tmsUpload:
+    nodeName: "qas"
+    credentialsId: "tms-sk"
