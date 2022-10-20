@@ -5,7 +5,7 @@
     {
       "source": "^/catalog/(.*)$",
       "target": "/catalog/$1",
-      "destination": "capbigbagstock-srv-api",
+      "destination": "bigbagstock_capbigbagstock_html_repo_host",
       "authenticationType": "xsuaa",
       "csrfProtection": false
     },
