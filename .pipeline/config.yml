@@ -14,7 +14,7 @@ stages:
   Acceptance:
     cloudFoundryDeploy: false
     cfApiEndpoint: "https://api.cf.us10.hana.ondemand.com"
-    cfOrg: "dev-paperless"
+    cfOrg: "ESENTTIA S.A._dev-paperless"
     cfSpace: "dev"
     cfAppName: "capbigbagstock"
     cfCredentialsId: "deploy-to-cf"
@@ -23,7 +23,7 @@ stages:
   Release:
     cloudFoundryDeploy: true
     cfApiEndpoint: "https://api.cf.us10.hana.ondemand.com"
-    cfOrg: "dev-paperless"
+    cfOrg: "ESENTTIA S.A._dev-paperless"
     cfSpace: "dev"
     cfAppName: "capbigbagstock"
     cfCredentialsId: "deploy-to-cf"
